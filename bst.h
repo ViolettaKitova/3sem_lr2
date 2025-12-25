@@ -15,7 +15,6 @@ struct BST {
     int size;
 };
 
-// Основные функции
 void createBST(BST* tree);
 BSTNode* createBSTNode(int value);
 void bstInsert(BST* tree, int value);
@@ -25,10 +24,9 @@ void bstPreorder(BSTNode* root);
 void bstPostorder(BSTNode* root);
 void bstFree(BSTNode* root);
 
-// Функции для задания 5
-void bstSwapTwoNodes(BST* tree); // Создает дерево с двумя поменянными узлами
-void bstRecover(BST* tree); // Восстанавливает правильное BST
+void bstSwapTwoNodes(BST* tree);
+void bstRecover(BST* tree); 
 void bstPrintTree(BSTNode* root, string prefix = "", bool isLeft = true);
-void bstDemoTask5(); // Добавляем эту строку
+void bstDemoTask5(); 
 
 #endif
