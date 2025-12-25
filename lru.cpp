@@ -2,7 +2,6 @@
 #include <iostream>
 using namespace std;
 
-// Простая хеш-функция
 int lruHash(int key, int size) {
     return key % size;
 }
@@ -22,32 +21,30 @@ void createLRUCache(LRUCache* cache, int capacity) {
     }
 }
 
-// Вспомогательная функция для поиска в хеш-таблице
+//функция для поиска в хеш-таблице
 LRUNode* lruFindInHash(LRUCache* cache, int key) {
     int index = lruHash(key, cache->hashSize);
     LRUNode* node = cache->hashTable[index];
     
-    // Проходим по цепочке (простая реализация)
     while (node != nullptr) {
         if (node->key == key) {
             return node;
         }
-        node = node->next; // Используем next для связи в хеш-таблице
+        node = node->next; 
     }
     
     return nullptr;
 }
 
-// Вспомогательная функция для добавления в хеш-таблицу
+//функция для добавления в хеш-таблицу
 void lruAddToHash(LRUCache* cache, LRUNode* node) {
     int index = lruHash(node->key, cache->hashSize);
     
-    // Добавляем в начало цепочки
     node->next = cache->hashTable[index];
     cache->hashTable[index] = node;
 }
 
-// Вспомогательная функция для удаления из хеш-таблицы
+//функция для удаления из хеш-таблицы
 void lruRemoveFromHash(LRUCache* cache, int key) {
     int index = lruHash(key, cache->hashSize);
     LRUNode* current = cache->hashTable[index];
@@ -69,16 +66,12 @@ void lruRemoveFromHash(LRUCache* cache, int key) {
 }
 
 void lruPut(LRUCache* cache, int key, string value) {
-    // Проверяем, есть ли уже такой ключ
     LRUNode* existing = lruFindInHash(cache, key);
     
     if (existing != nullptr) {
-        // Обновляем значение
         existing->value = value;
         
-        // Перемещаем в начало (самый недавний)
         if (existing != cache->head) {
-            // Удаляем из текущей позиции
             if (existing->prev) existing->prev->next = existing->next;
             if (existing->next) existing->next->prev = existing->prev;
             
@@ -86,7 +79,6 @@ void lruPut(LRUCache* cache, int key, string value) {
                 cache->tail = existing->prev;
             }
             
-            // Добавляем в начало
             existing->next = cache->head;
             existing->prev = nullptr;
             
@@ -103,12 +95,10 @@ void lruPut(LRUCache* cache, int key, string value) {
         return;
     }
     
-    // Если кэш полный, удаляем самый старый
     if (cache->size >= cache->capacity) {
         LRUNode* lruNode = cache->tail;
         
         if (lruNode != nullptr) {
-            // Удаляем из списка
             if (lruNode->prev != nullptr) {
                 lruNode->prev->next = nullptr;
             }
@@ -118,7 +108,6 @@ void lruPut(LRUCache* cache, int key, string value) {
                 cache->head = nullptr;
             }
             
-            // Удаляем из хеш-таблицы
             lruRemoveFromHash(cache, lruNode->key);
             
             delete lruNode;
@@ -126,17 +115,14 @@ void lruPut(LRUCache* cache, int key, string value) {
         }
     }
     
-    // Создаем новый узел
     LRUNode* newNode = new LRUNode;
     newNode->key = key;
     newNode->value = value;
     newNode->prev = nullptr;
     newNode->next = cache->head;
     
-    // Добавляем в хеш-таблицу
     lruAddToHash(cache, newNode);
     
-    // Добавляем в начало списка
     if (cache->head != nullptr) {
         cache->head->prev = newNode;
     }
@@ -154,12 +140,10 @@ string lruGet(LRUCache* cache, int key) {
     LRUNode* node = lruFindInHash(cache, key);
     
     if (node == nullptr) {
-        return "-1"; // Не найден
+        return "-1"; 
     }
     
-    // Перемещаем в начало (самый недавний)
     if (node != cache->head) {
-        // Удаляем из текущей позиции
         if (node->prev) node->prev->next = node->next;
         if (node->next) node->next->prev = node->prev;
         
@@ -167,7 +151,6 @@ string lruGet(LRUCache* cache, int key) {
             cache->tail = node->prev;
         }
         
-        // Добавляем в начало
         node->next = cache->head;
         node->prev = nullptr;
         
@@ -207,7 +190,6 @@ void lruPrint(LRUCache* cache) {
 }
 
 void lruFree(LRUCache* cache) {
-    // Очищаем список
     LRUNode* current = cache->head;
     while (current != nullptr) {
         LRUNode* next = current->next;
@@ -224,9 +206,8 @@ void lruFree(LRUCache* cache) {
     cache->capacity = 0;
 }
 
-// Функция для демонстрации задания 7
 void lruDemoTask7() {
-    cout << "\n=== Демонстрация задания 7 ===\n";
+    cout << "Демонстрация задание 7" << endl;
     
     LRUCache cache;
     createLRUCache(&cache, 2);
