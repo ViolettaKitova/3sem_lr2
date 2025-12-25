@@ -9,14 +9,12 @@ void createSet(Set* s, int initialCapacity) {
 }
 
 void setAdd(Set* s, string value) {
-    // Проверяем, нет ли уже такого элемента
     for (int i = 0; i < s->size; i++) {
         if (s->elements[i] == value) {
-            return; // Элемент уже есть
+            return; 
         }
     }
     
-    // Если места нет, увеличиваем массив
     if (s->size >= s->capacity) {
         int newCapacity = s->capacity * 2;
         string* newData = new string[newCapacity];
@@ -30,7 +28,6 @@ void setAdd(Set* s, string value) {
         s->capacity = newCapacity;
     }
     
-    // Добавляем элемент
     s->elements[s->size] = value;
     s->size++;
 }
@@ -38,7 +35,6 @@ void setAdd(Set* s, string value) {
 void setDelete(Set* s, string value) {
     for (int i = 0; i < s->size; i++) {
         if (s->elements[i] == value) {
-            // Сдвигаем все элементы после найденного
             for (int j = i; j < s->size - 1; j++) {
                 s->elements[j] = s->elements[j + 1];
             }
@@ -72,9 +68,7 @@ void freeSet(Set* s) {
     s->capacity = 0;
 }
 
-// Задание 3: Разбиение множества (вариант 1)
 bool canPartitionSet(Set* s) {
-    // Конвертируем string в int
     int* nums = new int[s->size];
     int total = 0;
     
@@ -96,8 +90,7 @@ bool canPartitionSet(Set* s) {
     int target = total / 2;
     cout << "Ищем подмножества с суммой = " << target << endl;
     
-    // Генерируем все подмножества
-    int totalSubsets = 1 << s->size; // 2^n
+    int totalSubsets = 1 << s->size; 
     
     for (int mask = 0; mask < totalSubsets; mask++) {
         int sum = 0;
@@ -110,7 +103,6 @@ bool canPartitionSet(Set* s) {
         if (sum == target && mask != 0 && mask != totalSubsets - 1) {
             cout << "\nНайдено разбиение:\n";
             
-            // Первое подмножество
             cout << "Подмножество 1: { ";
             bool first = true;
             int sum1 = 0;
@@ -124,7 +116,6 @@ bool canPartitionSet(Set* s) {
             }
             cout << " } Сумма = " << sum1 << endl;
             
-            // Второе подмножество
             cout << "Подмножество 2: { ";
             first = true;
             int sum2 = 0;
