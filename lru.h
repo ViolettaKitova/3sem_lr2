@@ -22,12 +22,11 @@ struct LRUCache {
     int hashSize;
 };
 
-// Основные функции
 void createLRUCache(LRUCache* cache, int capacity);
 void lruPut(LRUCache* cache, int key, string value);
 string lruGet(LRUCache* cache, int key);
 void lruPrint(LRUCache* cache);
 void lruFree(LRUCache* cache);
-void lruDemoTask7(); // Добавляем эту строку
+void lruDemoTask7(); 
 
 #endif
