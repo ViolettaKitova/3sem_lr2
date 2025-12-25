@@ -2,8 +2,6 @@
 #include <iostream>
 using namespace std;
 
-// ==================== МЕТОД ЦЕПОЧЕК ====================
-
 void createHashTableChaining(HashTableChaining* ht, int cap) {
     ht->capacity = cap;
     ht->size = 0;
@@ -15,7 +13,6 @@ void createHashTableChaining(HashTableChaining* ht, int cap) {
 }
 
 int hashFunction1(string key, int capacity) {
-    // Простая хеш-функция: сумма кодов символов
     int hash = 0;
     for (int i = 0; i < key.length(); i++) {
         hash += key[i];
@@ -24,7 +21,6 @@ int hashFunction1(string key, int capacity) {
 }
 
 int hashFunction2(string key, int capacity) {
-    // Хеш-функция методом умножения
     int hash = 0;
     for (int i = 0; i < key.length(); i++) {
         hash = hash * 31 + key[i];
@@ -40,11 +36,9 @@ void hashInsertChaining(HashTableChaining* ht, string key, string value) {
     newNode->value = value;
     newNode->next = nullptr;
     
-    // Если цепочка пустая
     if (ht->table[index] == nullptr) {
         ht->table[index] = newNode;
     } else {
-        // Добавляем в начало цепочки
         newNode->next = ht->table[index];
         ht->table[index] = newNode;
     }
@@ -75,7 +69,6 @@ void hashDeleteChaining(HashTableChaining* ht, string key) {
     while (current != nullptr) {
         if (current->key == key) {
             if (prev == nullptr) {
-                // Удаляем первый элемент цепочки
                 ht->table[index] = current->next;
             } else {
                 prev->next = current->next;
@@ -127,8 +120,6 @@ void freeHashTableChaining(HashTableChaining* ht) {
     ht->capacity = 0;
 }
 
-// ==================== ОТКРЫТАЯ АДРЕСАЦИЯ ====================
-
 void createHashTableOpen(HashTableOpen* ht, int cap) {
     ht->capacity = cap;
     ht->size = 0;
@@ -150,10 +141,8 @@ void hashInsertOpen(HashTableOpen* ht, string key, string value) {
     int originalIndex = index;
     int i = 0;
     
-    // Линейное пробирование
     while (!ht->table[index].isEmpty && !ht->table[index].isDeleted) {
         if (ht->table[index].key == key) {
-            // Обновляем существующий ключ
             ht->table[index].value = value;
             return;
         }
@@ -162,13 +151,11 @@ void hashInsertOpen(HashTableOpen* ht, string key, string value) {
         index = (originalIndex + i) % ht->capacity;
         
         if (index == originalIndex) {
-            // Прошли весь круг
             cout << "Не удалось вставить элемент" << endl;
             return;
         }
     }
     
-    // Нашли свободное место
     ht->table[index].key = key;
     ht->table[index].value = value;
     ht->table[index].isEmpty = false;
@@ -240,17 +227,14 @@ void freeHashTableOpen(HashTableOpen* ht) {
     ht->capacity = 0;
 }
 
-// ==================== РИМСКИЕ ЦИФРЫ ====================
-
+//римские цифры
 string intToRoman(int num) {
     if (num <= 0 || num > 3999) {
         return "Invalid";
     }
     
-    // Массив значений и символов
     string roman = "";
     
-    // Таблица соответствий
     while (num >= 1000) { roman += "M"; num -= 1000; }
     if (num >= 900) { roman += "CM"; num -= 900; }
     if (num >= 500) { roman += "D"; num -= 500; }
