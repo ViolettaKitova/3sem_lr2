@@ -11,14 +11,12 @@ void atd_create(ATD_Set* s, int capacity) {
 }
 
 void atd_add(ATD_Set* s, string element) {
-    // Проверяем, нет ли уже такого элемента
     for (int i = 0; i < s->size; i++) {
         if (s->elements[i] == element) {
-            return; // Уже есть
+            return; 
         }
     }
     
-    // Если места нет, увеличиваем массив
     if (s->size >= s->capacity) {
         int newCapacity = s->capacity * 2;
         string* newArray = new string[newCapacity];
@@ -39,7 +37,6 @@ void atd_add(ATD_Set* s, string element) {
 void atd_delete(ATD_Set* s, string element) {
     for (int i = 0; i < s->size; i++) {
         if (s->elements[i] == element) {
-            // Сдвигаем все элементы после найденного
             for (int j = i; j < s->size - 1; j++) {
                 s->elements[j] = s->elements[j + 1];
             }
@@ -86,7 +83,6 @@ void atd_process_file(const char* filename, const char* query) {
     string line;
     cout << "Чтение файла " << filename << "..." << endl;
     
-    // Читаем файл построчно
     while (getline(file, line)) {
         stringstream ss(line);
         string command, value;
@@ -108,7 +104,6 @@ void atd_process_file(const char* filename, const char* query) {
     
     file.close();
     
-    // Обрабатываем запрос
     cout << "\nЗапрос: " << query << endl;
     stringstream ss(query);
     string command, value;
